@@ -1,10 +1,10 @@
 name: sliver_text
 description: "SliverText is a widget that displays a string of text in a sliver without using [SliverToBoxAdapter] and [Text] widgets."
-version: 0.0.1
+version: 0.0.2
 homepage: https://github.com/Bomsamdi/sliver_text
 
 environment:
-  sdk: '>=3.2.5 <4.0.0'
+  sdk: '>=3.2.3 <4.0.0'
   flutter: ">=1.17.0"
 
 dependencies:

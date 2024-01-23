@@ -4,8 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'dart:ui' as ui;
 
-/// [SliverText] is a widget that displays a string of text in a sliver without using [SliverToBoxAdapter] and [Text] widgets.
+/// [SliverText] is a widget that displays a string of text in a sliver
+///
+///  without using [SliverToBoxAdapter] and [Text] widgets.
 class SliverText extends SingleChildRenderObjectWidget {
+  /// Creates a widget that displays a string of text in a sliver.
   const SliverText(
     this.text, {
     Key? key,
@@ -36,6 +39,9 @@ class SliverText extends SingleChildRenderObjectWidget {
   /// How visual overflow should be handled.
   final TextOverflow overflow;
 
+  /// Creates an render object of the [SliverTextAdapter] class
+  ///
+  ///  that is used by this widget.
   @override
   RenderObject createRenderObject(BuildContext context) {
     return SliverTextAdapter(
@@ -48,21 +54,28 @@ class SliverText extends SingleChildRenderObjectWidget {
     );
   }
 
+  /// Updates the [SliverTextAdapter] with the current values of the properties.
   @override
   void updateRenderObject(
       BuildContext context, covariant SliverTextAdapter renderObject) {
+    /// Updates the [SliverTextAdapter] with the current values of the properties.
     renderObject.text = text;
     renderObject.style = style;
     renderObject.textAlign = textAlign;
     renderObject.direction = direction;
     renderObject.overflow = overflow;
     renderObject.maxLines = maxLines;
+
+    /// Calls the [updateRenderObject] method on the superclass.
     super.updateRenderObject(context, renderObject);
   }
 }
 
-/// [SliverTextAdapter] is the [RenderSliverSingleBoxAdapter] that [SliverText] uses to display text.
+/// [SliverTextAdapter] is the [RenderSliverSingleBoxAdapter] that
+///
+/// [SliverText] uses to display text.
 class SliverTextAdapter extends RenderSliverSingleBoxAdapter {
+  /// Creates a [SliverTextAdapter] that displays text.
   SliverTextAdapter(
     String text, {
     TextStyle style = const TextStyle(),
@@ -180,6 +193,9 @@ class SliverTextAdapter extends RenderSliverSingleBoxAdapter {
     );
   }
 
+  /// Lays out the child [RenderParagraph] and sets
+  ///
+  /// the [SliverGeometry] for the [SliverTextAdapter].
   @override
   void performLayout() {
     if (child == null) {
@@ -187,8 +203,12 @@ class SliverTextAdapter extends RenderSliverSingleBoxAdapter {
       return;
     }
     final SliverConstraints constraints = this.constraints;
+
+    /// Lays out the child [RenderParagraph].
     child!.layout(constraints.asBoxConstraints(), parentUsesSize: true);
     final double childExtent;
+
+    /// Calculates the [SliverGeometry.scrollExtent] for the [RenderSliverSingleBoxAdapter].
     switch (constraints.axis) {
       case Axis.horizontal:
         childExtent = child!.size.width;
@@ -196,10 +216,15 @@ class SliverTextAdapter extends RenderSliverSingleBoxAdapter {
         childExtent = child!.size.height;
     }
 
+    /// Calculates the [SliverGeometry.paintExtent] for the [RenderSliverSingleBoxAdapter].
     final double paintedChildSize =
         calculatePaintOffset(constraints, from: 0.0, to: childExtent);
+
+    /// Calculates the [SliverGeometry.cacheExtent] for the [RenderSliverSingleBoxAdapter].
     final double cacheExtent =
         calculateCacheOffset(constraints, from: 0.0, to: childExtent);
+
+    /// Sets the [SliverGeometry] for the [RenderSliverSingleBoxAdapter].
     geometry = SliverGeometry(
       scrollExtent: childExtent,
       paintExtent: paintedChildSize,
@@ -209,6 +234,8 @@ class SliverTextAdapter extends RenderSliverSingleBoxAdapter {
       hasVisualOverflow: childExtent > constraints.remainingPaintExtent ||
           constraints.scrollOffset > 0.0,
     );
+
+    /// Sets the [SliverGeometry] for the [RenderSliverSingleBoxAdapter].
     setChildParentData(child!, constraints, geometry!);
   }
 }
